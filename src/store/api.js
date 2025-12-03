@@ -2,6 +2,8 @@ import axios from "axios";
 
 export const API = import.meta.env.VITE_APP_API || "http://37.27.29.18:8002";
 export const IMG_API = import.meta.env.VITE_APP_API_IMG_ || API;
+// export const Color_API = import.meta.env.VITE_APP_API_Color_ || API;
+// export const our_API = `${BASE_URL}/Images/`;
 
 export const axiosRequest = axios.create({
   baseURL: API,

@@ -23,7 +23,7 @@ const Registration = () => {
     const result = await dispatch(registerUser(payload));
 
     if (result.meta.requestStatus === "fulfilled") {
-      navigate("/"); // после регистрации отправим на login
+      navigate("/"); 
     }
   }
 

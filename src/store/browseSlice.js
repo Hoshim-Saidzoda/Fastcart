@@ -1,16 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
- export const fetchBrowseItems = createAsyncThunk(
-  "browse/fetchBrowseItems",
+ export const fetchCategories = createAsyncThunk(
+  "categories/fetchCategories",
   async () => {
-    const { data } = await axios.get("http://37.27.29.18:8002/BrowseItems");
-    return data;
+    const response = await axios.get(
+      "http://37.27.29.18:8002/Category/get-categories",
+      {
+        headers: {
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30",
+          Accept: "application/json",
+        },
+      }
+    );
+    console.log(response.data.data);
+    return response.data.data;  
   }
 );
 
-const browseSlice = createSlice({
-  name: "browse",
+const categoriesSlice = createSlice({
+  name: "categories",
   initialState: {
     items: [],
     loading: false,
@@ -18,19 +27,19 @@ const browseSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBrowseItems.pending, (state) => {
+      .addCase(fetchCategories.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchBrowseItems.fulfilled, (state, action) => {
+      .addCase(fetchCategories.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
       })
-      .addCase(fetchBrowseItems.rejected, (state, action) => {
+      .addCase(fetchCategories.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export default browseSlice.reducer;
+export default categoriesSlice.reducer;

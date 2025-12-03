@@ -4,7 +4,11 @@ import Banner from "../components/Banner";
 import ProductPage from "../components/ProductPage";
 import MusicPromo from "../components/MusicPromo";
 import BrowseSlider from "../components/Browse/Browse";
-
+import SellingPage from "../components/SellingPage/Selling";
+ import ColorSlider from "../components/Explore/Explore"
+ import { fetchColors } from "../store/ExploreSlice"; // путь к твоему slice
+import ColorList from "../components/Explore/Explore";
+import Arrival from "../components/Arrival/Arrival"
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,19 +36,57 @@ const Home = () => {
 
       {loading && <p className="text-center text-gray-500 my-10"> </p>}
 
-      <div className="flex gap-4 items-start mt-10">
-        <div className="flex-1">
-          <ProductPage products={products} title="Products" />
-        </div>
-      </div>
+      
 
-      <MusicPromo />
+
+<div className="flex-1 mt-10">
+   <div className="flex items-center gap-3 mb-4">
+    <button className="w-5 h-8 bg-red-500 text-red-500  ll flex items-center justify-center text-sm font-bold">
+    </button>
+    <h2 className="text-red-500 text-xl font-semibold">Today’s</h2>
+  </div>
+
+          <ProductPage products={products} title="Flash Sales" />
+</div>
+
 
       <div className="flex-1 mt-10">
-        <BrowseSlider products={products} title="Browse Products" />
-      </div>
+   <div className="flex items-center gap-3 mb-4">
+    <button className="w-5 h-8 bg-red-500 text-red-500  ll flex items-center justify-center text-sm font-bold">
+    </button>
+    <h2 className="text-red-500 text-xl font-semibold">Categories</h2>
+  </div>
+
+   <BrowseSlider products={products} title="Browse By Category" />
+</div>
+
+
+
+<div className="flex-1 mt-10">
+   <div className="flex items-center gap-3 mb-4">
+    <button className="w-5 h-8 bg-red-500 text-red-500  ll flex items-center justify-center text-sm font-bold">
+    </button>
+    <h2 className="text-red-500 text-xl font-semibold">This Month
+</h2>
+  </div>
+
+          <SellingPage products={products} title=" Best Selling Products" />
+</div>
+ 
+ 
+      <MusicPromo />
+
+
+          <ColorSlider products={fetchColors} title=" Best  " />
+
+
+
+<Arrival />
+
+         
     </div>
   );
 };
 
 export default Home;
+ 
