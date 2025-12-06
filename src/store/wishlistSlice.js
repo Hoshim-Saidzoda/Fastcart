@@ -1,38 +1,34 @@
+ 
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // Инициализация из localStorage
-  items: JSON.parse(localStorage.getItem("wishlist")) || [],
+  items: JSON.parse(localStorage.getItem("wishlist")) ,
 };
 
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
   reducers: {
-     addToWishlist: (state, action) => {
-      state.items.push(action.payload);
+    addToWishlist: (state, action) => {
+      state.items.push(action.payload); 
       localStorage.setItem("wishlist", JSON.stringify(state.items));
     },
 
-     addLocal: (state, action) => {
-      const exists = state.items.find((item) => item.id === action.payload.id);
-      if (!exists) {
-        state.items.push(action.payload);
-        localStorage.setItem("wishlist", JSON.stringify(state.items));
-      }
-    },
-
-     removeFromWishlist: (state, action) => {
+    deleteWishlist: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
       localStorage.setItem("wishlist", JSON.stringify(state.items));
     },
 
-     clearWishlist: (state) => {
+    clearWishlist: (state) => {
       state.items = [];
       localStorage.removeItem("wishlist");
     },
   },
 });
 
-export const { addLocal, addToWishlist, removeFromWishlist, clearWishlist } = wishlistSlice.actions;
+export const { addToWishlist, deleteWishlist, clearWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;
+
+
+
+

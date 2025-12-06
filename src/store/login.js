@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { apiInstance, saveToken, removeToken, axiosRequest } from "./api";
+import { apiInstance, removeToken } from "./api";
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
@@ -16,14 +16,9 @@ export const loginUser = createAsyncThunk(
         }
       );
 
-      const token = data.data;
-      if (token) {
-        saveToken(token);
-      }
-
-      return token;
+      return data.data; 
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Error");
+      return rejectWithValue(error.response?.data);
     }
   }
 );
@@ -31,8 +26,7 @@ export const loginUser = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    token: localStorage.getItem("token") || null,
-    loading: false,
+    token: null,
     error: null,
   },
   reducers: {
@@ -42,22 +36,13 @@ const authSlice = createSlice({
     },
   },
 
-
-  
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
-        state.loading = true;
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.token = action.payload;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || "Login failed";
-      });
+       
   },
 });
 

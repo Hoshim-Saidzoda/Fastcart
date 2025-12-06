@@ -18,7 +18,7 @@ const Login = () => {
     const result = await dispatch(loginUser({ username, password }));
 
     if (result.meta.requestStatus === "fulfilled") {
-      navigate("/home");
+      navigate("/");
     }
   }
 

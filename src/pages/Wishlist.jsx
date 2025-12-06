@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromWishlist, clearWishlist } from "../store/wishlistSlice";
+import { deleteWishlist, clearWishlist } from "../store/wishlistSlice";
 import { addProductToServer } from "../store/cartSlice";  
 import { IMG_API } from "../store/api";
 import { Trash2 } from "lucide-react";
 
 const WishlistPage = () => {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.wishlist.items || []);
+  const items = useSelector((state) => state.wishlist.items);
 
   const moveAllToBag = async () => {
      for (const item of items) {
@@ -49,9 +49,9 @@ const WishlistPage = () => {
             <p className="text-red-600 font-bold text-xl mt-1">${item.price}</p>
 
             <button
-              onClick={() => dispatch(removeFromWishlist(item.id))}
+              onClick={() => dispatch(deleteWishlist(item.id))}
               className="absolute top-3 right-3 bg-red-500 text-white p-2 rounded-full hover:bg-red-700 transition"
-              title="Remove from Wishlist"
+              title="delete from Wishlist"
             >
               <Trash2 className="w-5 h-5" />
             </button>

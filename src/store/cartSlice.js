@@ -3,87 +3,81 @@ import { axiosRequest } from "./api";
 
 const STORAGE_KEY = "cart_v1";
 
-const loadInitial = () => {
+ const loadInitial = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { items: [], totalPrice: 0 };
-    const parsed = JSON.parse(raw);
-    return {
-      items: parsed.items || [],
-      totalPrice: parsed.totalPrice || 0,
-    };
-  } catch (e) {
+    return JSON.parse(raw);
+  } catch {
     return { items: [], totalPrice: 0 };
   }
 };
 
 const initialState = loadInitial();
 
-const recalcTotal = (items) =>
-  items.reduce((sum, it) => sum + (Number(it.price ?? 0) * (it.quantity ?? 1)), 0);
+ const recalcTotal = (items) =>
+  items.reduce((sum, it) => sum + Number(it.price * (it.quantity || 1)), 0);
 
-const cartSlice = createSlice({
+ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart(state, action) {
-      const product = action.payload;
-      const existing = state.items.find((it) => it.id === product.id);
+      const p = action.payload;
+      const existing = state.items.find((it) => it.id === p.id);
+
       if (existing) {
-        existing.quantity = (existing.quantity || 1) + 1;
+        existing.quantity += 1;
       } else {
-        state.items.push({ ...product, quantity: 1 });
+        state.items.push({ ...p, quantity: 1 });
       }
+
       state.totalPrice = recalcTotal(state.items);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ items: state.items, totalPrice: state.totalPrice }));
-      } catch (e) {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     },
+
     decreaseQuantity(state, action) {
       const id = action.payload;
       const existing = state.items.find((it) => it.id === id);
+
       if (existing) {
-        if ((existing.quantity || 1) > 1) {
-          existing.quantity -= 1;
-        } else {
-          state.items = state.items.filter((it) => it.id !== id);
-        }
+        existing.quantity > 1
+          ? (existing.quantity -= 1)
+          : (state.items = state.items.filter((it) => it.id !== id));
       }
+
       state.totalPrice = recalcTotal(state.items);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ items: state.items, totalPrice: state.totalPrice }));
-      } catch (e) {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     },
+
     removeFromCart(state, action) {
-      const id = action.payload;
-      state.items = state.items.filter((it) => it.id !== id);
+      state.items = state.items.filter((it) => it.id !== action.payload);
       state.totalPrice = recalcTotal(state.items);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ items: state.items, totalPrice: state.totalPrice }));
-      } catch (e) {}
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     },
+
     clearCart(state) {
       state.items = [];
       state.totalPrice = 0;
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (e) {}
+      localStorage.removeItem(STORAGE_KEY);
     },
   },
 });
 
-export const addProductToServer = createAsyncThunk(
+ export const addProductToServer = createAsyncThunk(
   "cart/addProductToServer",
-  async (product, { dispatch, rejectWithValue }) => {
+  async (product, { dispatch }) => {
     try {
-      await axiosRequest.post(`Cart/add-product-to-cart?id=${product.id}`, {});
-       dispatch(cartSlice.actions.addToCart(product));
-      return product;
-    } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+      await axiosRequest.post(`Cart/add-product-to-cart?id=${product.id}`);
+    } catch {
     }
+
+    dispatch(cartSlice.actions.addToCart(product));
+    return product;
   }
 );
 
-export const { addToCart, decreaseQuantity, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, decreaseQuantity, removeFromCart, clearCart } =
+  cartSlice.actions;
+
 export default cartSlice.reducer;

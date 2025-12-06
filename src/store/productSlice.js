@@ -1,13 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosRequest } from "./api";
 
- export const fetchProducts = createAsyncThunk(
+export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
-    const { data } = await axiosRequest.get("Product/get-products", {
-      params: { PageNumber: 1, PageSize: 20 },
-    });
-    return data.data.products || [];
+    try {
+      const { data } = await axiosRequest.get("Product/get-products");
+    return data.data.products;
+    } catch (error) {
+      console.error(error);
+      return [];  
+    }
   }
 );
 
@@ -18,20 +21,13 @@ const productSlice = createSlice({
     status: "idle",
     error: null,
   },
+
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchProducts.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.items = action.payload;
-      })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      });
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.items = action.payload;
+    });
   },
 });
 

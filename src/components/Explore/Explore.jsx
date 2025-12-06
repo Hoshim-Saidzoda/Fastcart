@@ -15,12 +15,17 @@ const Explore = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+
+
+  
   const getImage = (item, type) =>
-    `${IMG_API}/images/${type === "browse" ? item.categoryImage || item.icon : item.image}`;
+    `${IMG_API}/images/${type ==
+       "browse" ? item.categoryImage 
+       || item.icon : item.image}`;
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-      <section className="mb-10 flex gap-6 min-w-max overflow-x-auto">
+       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
         {products?.slice(0, 12).map(p => (
           <ProductCard
             key={p.id}
@@ -31,12 +36,11 @@ const Explore = () => {
             isNew={p.isNew === true}
             rating={4.5}
             reviews={50}
-            className="w-72 shrink-0"
           />
         ))}
       </section>
 
-      <section className="mb-20 flex gap-6 min-w-max overflow-x-auto mt-6">
+       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-20">
         {browseItems?.map(c => (
           <ProductCard
             key={c.id}
@@ -47,12 +51,9 @@ const Explore = () => {
             isNew={c.isNew === true}
             rating={4.5}
             reviews={50}
-            className="w-72 shrink-0"
           />
         ))}
       </section>
-
-     
     </div>
   );
 };

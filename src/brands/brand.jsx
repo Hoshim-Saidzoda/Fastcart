@@ -32,12 +32,11 @@ const Brands = () => {
       {brands.map(b => (
         <div key={b.id}>
           <h3>{b.brandName}</h3>
-
-          <img src={`${IMG_API.replace(/\/$/, '')}/images/${b.image}`} alt={b.id} width={120} />
+           <img src={`${IMG_API}/images/${b.image}`} alt={b.id} width={120} />
         </div>
       ))}
     </div>
   );
-};
+}
 
 export default Brands;
