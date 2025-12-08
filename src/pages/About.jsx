@@ -13,7 +13,7 @@ const About  = () => {
     return(
         <div className="max-w-[1200px] m-auto px-4 sm:px-0">
 
-            {/* Our Story */}
+            
             <section className="py-16">
                 <div className="container mx-auto flex flex-col md:flex-row items-center gap-8">
                     <div className="md:w-1/2">
@@ -35,7 +35,7 @@ const About  = () => {
                 </div>
             </section>
 
-            {/* Stats */}
+            
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
                 <div className="text-center flex flex-col gap-3 border py-4 border-gray-400">
                     <img src={About0} alt="" className="mx-auto mb-3 w-12 h-12 sm:w-15 sm:h-15 object-cover rounded-full" />
@@ -62,7 +62,7 @@ const About  = () => {
                 </div>
             </section>
 
-            {/* Team */}
+            
             <section className="flex flex-wrap justify-center mt-20 gap-10">
                 <div className="w-full sm:w-[370px] flex flex-col items-center">
                     <img src={Tom} alt="Tom Cruise" className="w-64 h-96 sm:w-[320px] sm:h-[400px]" />
@@ -98,7 +98,7 @@ const About  = () => {
                 </div>
             </section>
 
-            {/* Services */}
+            
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-20 mb-20">
                 <div className="text-center flex flex-col gap-3">
                     <img src={About0} alt="" className="mx-auto mb-3 w-12 h-12 sm:w-15 sm:h-15 object-cover rounded-full" />

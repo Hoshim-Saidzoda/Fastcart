@@ -5,7 +5,9 @@ import ProductPage from "../components/ProductPage";
 import MusicPromo from "../components/MusicPromo";
 import BrowseSlider from "../components/Browse/Browse";
 import SellingPage from "../components/SellingPage/Selling";
-import Explore from "../components/Explore/Explore";
+ import ColorSlider from "../components/Explore/Explore"
+ import { fetchColors } from "../store/ExploreSlice";  
+import ColorList from "../components/Explore/Explore";
 import Arrival from "../components/Arrival/Arrival"
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -32,9 +34,12 @@ const Home = () => {
     <div className="max-w-7xl mx-auto px-4 py-12">
       <Banner />
 
-      {loading && <p className="text-center text-gray-500 my-10">Loading...</p>}
+      {loading && <p className="text-center text-gray-500 my-10"> </p>}
 
-      <div className="flex-1 mt-10">
+      
+
+
+<div className="flex-1 mt-10">
    <div className="flex items-center gap-3 mb-4">
     <button className="w-5 h-8 bg-red-500 text-red-500  ll flex items-center justify-center text-sm font-bold">
     </button>
@@ -80,16 +85,27 @@ const Home = () => {
   </div>
 <h1 className="text-3xl font-bold p-3 mb-5">Explore Our Products</h1>
 
-          <ColorSlider products={fetchColors} title=" tjytjtjt  " />
+          <ColorSlider products={fetchColors} title="" />
 </div>
 
+
+<div className="flex-1 mt-20">
+   <div className="flex items-center gap-3 mb-4">
+    <button className="w-5 h-8 bg-red-500 text-red-500  ll flex items-center justify-center text-sm font-bold">
+    </button>
+    <h2 className="text-red-500 text-xl font-semibold">Featured
+</h2>
+  </div>
+<h1 className="text-3xl font-bold p-3 mb-5">New Arrival</h1>
+
+<Arrival />
+</div>
 
 
  
 
 
 
-<Arrival />
 
          
     </div>

@@ -35,6 +35,7 @@ const Login = () => {
           placeholder="Username"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
           type="text"
+          autoComplete="username"
         />
 
         <input
@@ -42,6 +43,7 @@ const Login = () => {
           placeholder="Password"
           className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300"
           type="password"
+          autoComplete="current-password"
         />
 
         {error && (

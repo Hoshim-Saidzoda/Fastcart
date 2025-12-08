@@ -30,7 +30,7 @@ const ProductPage = ({ products, title, discountEnd }) => {
    
    
  
-   const diff = Math.max(new Date(discountEnd || "2025-12-05T23:59:59") - now, 0);
+   const diff = Math.max(new Date(discountEnd || "2025-12-15T23:59:59") - now, 0);
   const days = Math.floor(diff / 86400000);
   const hours = Math.floor((diff % 86400000) / 3600000);
   const minutes = Math.floor((diff % 3600000) / 60000);

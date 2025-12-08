@@ -15,8 +15,8 @@ import {
 } from "@mui/icons-material";
 
 const Layout = () => {
-  const cartItems = useSelector((state) => state.cart.items);
-  const wishlist = useSelector((state) => state.wishlist.items);
+  const cartItems = useSelector((state) => state.cart?.items ?? []);
+  const wishlist = useSelector((state) => state.wishlist?.items ?? []);
 
   const [open, setOpen] = useState(false);
 
@@ -71,7 +71,7 @@ const Layout = () => {
     </Link>
   </div>
 
-  {/* BURGER (ONLY MOBILE) */}
+  
   <button
     onClick={() => setOpen(!open)}
     className="md:hidden text-3xl text-gray-700"
@@ -82,7 +82,7 @@ const Layout = () => {
 </nav>
 
 
-      {/* MOBILE DROPDOWN MENU */}
+  
       {open && (
         <div className="md:hidden pt-20 bg-white flex gap-3 justify-around shadow-md px-6 py-4 space-y-4 text-lg">
           <NavLink onClick={() => setOpen(false)} to="/" className={navClass}>
@@ -101,12 +101,12 @@ const Layout = () => {
         </div>
       )}
 
-      {/* CONTENT */}
+      
       <div className="flex-1">
         <Outlet />
       </div>
 
-      {/* FOOTER */}
+      
       <footer className="bg-black text-white py-16 mt-20">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10">
 
